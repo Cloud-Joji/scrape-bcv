@@ -9,8 +9,10 @@ export const extractData = (document: Document) => {
       "#block-views-47bbee0af9473fcf0d6df64198f4df6b > div > div.view-content > div > div.pull-right.dinpro.center > span"
     )
   );
+  const rawValueUsd: any = valueUsdBcv[0].textContent?.trim();
+  const valueUsd: number = parseFloat(rawValueUsd.replace(",", "."));
     return {
-    valueUsdBcv: valueUsdBcv[0].textContent?.trim(),
+    valueUsd: valueUsd, 
     dayEffect: dayEffect[0].textContent?.trim(),
   };
 };
