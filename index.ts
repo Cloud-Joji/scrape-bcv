@@ -54,15 +54,20 @@ async function fetchFromWebOrCache(url: string, ignoreCache = false) {
 }
 
 function extractData(document: Document) {
-  const writingLinks: HTMLAnchorElement[] = Array.from(
-    document.querySelectorAll('a.titlelink'),
+  const valueUsdBcv: HTMLAnchorElement[] = Array.from(
+    document.querySelectorAll('#dolar > div > div > div.col-sm-6.col-xs-6.centrado > strong'),
   );
-  return writingLinks.map(link => {
-    return {
-      title: link.text,
-      url: link.href,
-    };
-  });
+  const dayEffect: HTMLAnchorElement[] = Array.from(
+    document.querySelectorAll('#block-views-47bbee0af9473fcf0d6df64198f4df6b > div > div.view-content > div > div.pull-right.dinpro.center > span'),
+  );
+  return {
+    valueUsdBcv: valueUsdBcv.map(link => ({
+      valueUsd: link.textContent
+    })),
+    dayEffect: dayEffect.map(link => ({
+          day: link.textContent
+    }))
+  }
 }
 
 function saveData(filename: string, data: any) {
@@ -76,11 +81,11 @@ function saveData(filename: string, data: any) {
 
 async function getData() {
   const document = await fetchFromWebOrCache(
-    'https://news.ycombinator.com/',
+    'https://bcv.org.ve/',
     true,
   );
   const data = extractData(document);
-  saveData('hacker-news-links', data);
+  saveData('dolar-tasa-bcv', data);
 }
 
 getData();
